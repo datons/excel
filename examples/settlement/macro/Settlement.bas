@@ -1,10 +1,11 @@
 Attribute VB_Name = "Settlement"
 Option Explicit
 
-' Liquida por día la energía de una instalación con las hojas Medidas, Precios y Parametros, y escribe el resultado en Liquidacion.
-' Energía facturable de cada hora: medida en kWh / 1000 × (1 + pérdidas).
-' Importe de cada hora: Round(MWh × (precio + peaje), 2), con el redondeo de VBA, antes de sumar el día.
-' Una hora sin medida se estima con la media de las horas medidas de ese mismo día; un día sin ninguna medida queda a cero y se marca.
+' Settles the energy of one installation per day from the Medidas, Precios and Parametros sheets, and writes the result to Liquidacion.
+' Billable energy per hour: measured kWh / 1000 * (1 + losses).
+' Amount per hour: Round(MWh * (price + toll), 2), with VBA rounding, before adding up the day.
+' An hour without a measure takes the average of the measured hours of that day; a day without any measure settles to zero and is flagged.
+' Keep this file ASCII: the VBA editor reads it in the local code page (MacRoman on Mac, cp1252 on Windows), so any accent would be garbled.
 
 Public Sub Settle()
     Dim measures As Worksheet, prices As Worksheet, params As Worksheet, result As Worksheet
@@ -75,7 +76,7 @@ Private Function SettleDay(measures As Worksheet, prices As Worksheet, result As
     SettleDay = total
 End Function
 
-' Precio de una fecha y hora, buscado fila a fila en la hoja Precios. Si no lo encuentra, devuelve 0.
+' Price of a date and hour, searched row by row in the Precios sheet. Returns 0 when it is not there.
 Private Function PriceAt(prices As Worksheet, dateValue As Variant, hourValue As Variant) As Double
     Dim r As Long
     For r = 2 To prices.Cells(prices.Rows.Count, 1).End(xlUp).Row
