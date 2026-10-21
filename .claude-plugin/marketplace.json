@@ -1,0 +1,9 @@
+{
+  "$schema": "https://docs.claude.com/claude-plugin/marketplace.json",
+  "name": "datons-excel",
+  "owner": { "name": "Datons", "email": "hola@datons.com", "url": "https://datons.com" },
+  "description": "Plugin excel de datons: de macros VBA y libros de Excel a Python verificado.",
+  "plugins": [
+    { "name": "excel", "source": "./", "description": "Interpreta macros VBA y libros de Excel y los migra a Python verificado: documentación del proceso, casos de referencia ejecutando la macro en Excel, port a un paquete uv con tests de caracterización pytest, y API FastAPI con formulario SvelteKit y shadcn-svelte.", "category": "data", "tags": ["excel", "vba", "macro", "migration", "python", "pytest"] }
+  ]
+}

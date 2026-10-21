@@ -1,0 +1,25 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - uses: oven-sh/setup-bun@v2
+      - name: Reference port reproduces the macro (characterization tests) and its API
+        working-directory: examples/settlement/reference
+        run: uv run --python 3.12 pytest -q
+      - name: Reference app type-checks
+        working-directory: examples/settlement/reference/app
+        run: bun install && bun run check
+      - name: Skill templates are the tested reference files
+        run: |
+          diff skills/migrate/templates/app/src/lib/schema.ts examples/settlement/reference/app/src/lib/schema.ts
+          diff skills/migrate/templates/app/src/lib/SchemaForm.svelte examples/settlement/reference/app/src/lib/SchemaForm.svelte
+          diff skills/migrate/templates/app/src/lib/server/api.ts examples/settlement/reference/app/src/lib/server/api.ts
+      - run: uvx ruff check skills examples
+      - name: JSON manifests parse
+        run: for f in .claude-plugin/*.json .codex-plugin/plugin.json .agents/plugins/marketplace.json; do jq -e . "$f" > /dev/null; done
+      - name: Claude plugin manifest
+        run: npx -y @anthropic-ai/claude-code plugin validate .

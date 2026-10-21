@@ -5,7 +5,6 @@ from datetime import date
 from pathlib import Path
 
 import pytest
-
 from settlement_demo.settlement import read_inputs, settle
 
 EXAMPLE = Path(__file__).parents[2]

@@ -1,0 +1,7 @@
+{
+  "name": "datons-excel",
+  "interface": { "displayName": "datons · excel" },
+  "plugins": [
+    { "name": "excel", "source": { "source": "local", "path": "./" }, "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" }, "category": "Data" }
+  ]
+}

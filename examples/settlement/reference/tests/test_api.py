@@ -1,7 +1,6 @@
 """The API returns the same settlement as the function, and rejects out-of-range inputs before computing anything."""
 
 from fastapi.testclient import TestClient
-
 from settlement_demo.api import app
 
 client = TestClient(app)
