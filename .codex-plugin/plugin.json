@@ -1,6 +1,6 @@
 {
   "name": "excel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Interpreta macros VBA y libros de Excel y los migra a Python verificado: documentación del proceso, casos de referencia ejecutando la macro en Excel, port a un paquete uv con tests de caracterización pytest, y API FastAPI con formulario SvelteKit y shadcn-svelte.",
   "author": { "name": "Datons", "email": "hola@datons.com", "url": "https://datons.com" },
   "homepage": "https://github.com/datons/excel",

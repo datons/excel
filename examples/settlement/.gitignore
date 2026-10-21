@@ -1,3 +1,5 @@
 # The macro-enabled copy saved by hand in Excel only serves to extract vbaProject.bin.
 macro/*.xlsm
 ~$*
+settlement-year.xlsm
+settlement-year.xlsx

@@ -4,13 +4,15 @@
 # ///
 """Builds the example settlement workbook: synthetic hourly measures, prices and parameters, with formulas and, when vbaProject.bin is present, the Settle macro and its button.
 
-Usage: uv run build.py  →  settlement.xlsx (no macro) or settlement.xlsm (with vbaProject.bin).
+Usage: uv run build.py [--year 2026 [--months N]]  →  settlement.xlsx (no macro) or settlement.xlsm (with vbaProject.bin); with --year, every hour from 1 January (settlement-year or settlement-<N>m), to compare run times.
 The data is synthetic and deterministic. It deliberately includes the cases a migration must keep: a 25-hour day (end of summer time), hours without a measure, a day with no measures at all and an hour without a price.
 """
 
+import argparse
 import math
-from datetime import date
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import xlsxwriter
 
@@ -19,9 +21,10 @@ VBA_BIN = HERE / "vbaProject.bin"
 
 LOSSES = 0.045  # loss coefficient applied to measured energy
 TOLL = 12.35  # access toll, €/MWh
+MADRID = ZoneInfo("Europe/Madrid")
 
 # Day → number of hours (25 on the last Sunday of October, when summer time ends).
-DAYS = {date(2026, 10, 24): 24, date(2026, 10, 25): 25, date(2026, 10, 26): 24, date(2026, 10, 27): 24}
+EXAMPLE_DAYS = {date(2026, 10, 24): 24, date(2026, 10, 25): 25, date(2026, 10, 26): 24, date(2026, 10, 27): 24}
 MISSING_MEASURES = {(date(2026, 10, 26), 9), (date(2026, 10, 26), 10)}
 DAY_WITHOUT_MEASURES = date(2026, 10, 27)
 MISSING_PRICE = (date(2026, 10, 26), 13)
@@ -38,9 +41,24 @@ def price(day: date, hour: int) -> float:
     return round(78 + 22 * math.cos(math.pi * (hour - 20) / 12) - 0.7 * (day.day % 3), 2)
 
 
-def build() -> Path:
+def hours_in(day: date, tz: ZoneInfo = MADRID) -> int:
+    """23, 24 or 25: the length of the local day, which changes when summer time starts or ends."""
+    start = datetime(day.year, day.month, day.day, tzinfo=tz)
+    end = datetime.combine(day + timedelta(days=1), datetime.min.time(), tzinfo=tz)
+    # Subtracting two times of the same zone gives wall-clock time (always 24 h); in UTC it gives the real length.
+    return round((end.astimezone(UTC) - start.astimezone(UTC)).total_seconds() / 3600)
+
+
+def year_days(year: int, months: int = 12) -> dict[date, int]:
+    """Every day from 1 January for `months` months, with its real number of hours."""
+    first = date(year, 1, 1)
+    end = date(year + 1, 1, 1) if months >= 12 else date(year, months + 1, 1)
+    return {first + timedelta(days=i): hours_in(first + timedelta(days=i)) for i in range((end - first).days)}
+
+
+def build(days: dict[date, int] = EXAMPLE_DAYS, name: str = "settlement") -> Path:
     with_macro = VBA_BIN.exists()
-    out = HERE / ("settlement.xlsm" if with_macro else "settlement.xlsx")
+    out = HERE / (f"{name}.xlsm" if with_macro else f"{name}.xlsx")
     wb = xlsxwriter.Workbook(out)
     bold = wb.add_format({"bold": True})
     date_fmt = wb.add_format({"num_format": "yyyy-mm-dd"})
@@ -62,7 +80,7 @@ def build() -> Path:
     prices = wb.add_worksheet("Precios")
     prices.write_row(0, 0, ["Fecha", "Hora", "Precio_EUR_MWh"], bold)
     row = prow = 1
-    for day, hours in DAYS.items():
+    for day, hours in days.items():
         for hour in range(1, hours + 1):
             measures.write_datetime(row, 0, day, date_fmt)
             measures.write_number(row, 1, hour)
@@ -96,4 +114,8 @@ def build() -> Path:
 
 
 if __name__ == "__main__":
-    print(build())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--year", type=int, help="Build hours from 1 January of this year instead of the four example days")
+    parser.add_argument("--months", type=int, default=12, help="With --year, how many months (default 12); the file is settlement-<months>m")
+    args = parser.parse_args()
+    print(build(year_days(args.year, args.months), "settlement-year" if args.months >= 12 else f"settlement-{args.months}m") if args.year else build())

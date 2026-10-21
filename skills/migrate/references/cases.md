@@ -28,3 +28,7 @@ Elige los casos desde la auditoría: el caso normal del libro tal como viene, un
 ## Cuándo regenerar
 
 Solo cuando cambie la macro o se añada un caso. Si un caso regenerado cambia, no actualices el JSON sin más: entiende primero por qué cambió.
+
+## Medir el tiempo con volumen
+
+Con los pocos días de un caso de prueba, macro y Python tardan lo mismo. Para comparar de verdad, genera o pide un libro con un volumen realista (un mes, un año) y ejecuta la macro una vez con `run_macro.py`: el tiempo queda en `macro_seconds`. Muchas macros buscan fila a fila dentro de un bucle y su tiempo crece con el cuadrado de las filas: mide con un mes antes de lanzar un año.

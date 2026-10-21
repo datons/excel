@@ -6,7 +6,8 @@ A synthetic workbook with a VBA macro, and its migration to Python. Nothing here
 |---|---|
 | `macro/Settlement.bas` | The macro source (ASCII, see below) |
 | `vbaProject.bin` | The macro compiled by Excel, embedded by `build.py` |
-| `build.py` | Builds `settlement.xlsx` (no macro) and `settlement.xlsm` (with the macro and a Liquidar button) |
+| `build.py` | Builds `settlement.xlsx` (no macro) and `settlement.xlsm` (with the macro and a Liquidar button); `--year 2026 [--months N]` builds every hour from 1 January, with the real 23- and 25-hour days, to compare run times |
+| `settlement-1m.xlsm` | January 2026 (744 hours), to measure the macro against Python |
 | `expected/settlement.csv` | The macro's own output, run in Excel |
 | `reference/` | The migration: Python port, characterization tests, FastAPI and a SvelteKit form |
 
