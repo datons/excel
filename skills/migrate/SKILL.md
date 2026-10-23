@@ -12,7 +12,7 @@ Las rutas `scripts/...`, `references/...` y `templates/...` son relativas a la c
 
 | Paso | Referencia |
 |---|---|
-| 1. Auditar el libro y la macro | `references/audit.md` |
+| 1. Auditar el libro y la macro, y la propuesta | `references/audit.md` |
 | 2. Casos de referencia desde Excel | `references/cases.md` |
 | 3–4. Portar y fijar con tests | `references/port.md` |
 | 6. API y formulario web | `references/web.md` |
@@ -24,6 +24,7 @@ Trabaja en la carpeta del proyecto, nunca en una carpeta temporal. Si ya hay un 
 ```
 workbooks/<libro>.xlsm          el libro original, sin modificar
 docs/<process>.md               qué hace el proceso, en el idioma del usuario
+docs/<process>-proposal.html    la propuesta que confirma el usuario (paso 1)
 src/<project>/<process>.py      el proceso en Python
 tests/cases/*.json              casos de referencia sacados de Excel
 tests/test_<process>.py         tests de caracterización
@@ -35,7 +36,7 @@ Nombres de ficheros, funciones y comandos en inglés; documentación y mensajes,
 
 ## 1. Audita antes de escribir código
 
-Ejecuta `uv run scripts/describe.py <libro>`: hojas, cabeceras, fórmulas y el código VBA completo. Con eso escribe `docs/<process>.md` (entradas, salidas, reglas, casos especiales y rarezas) y un plan de migración. **Enséñale el plan al usuario y espera a que lo confirme**: es mucho más barato discutir aquí que con el código hecho. Si la macro es grande, trocea el plan por módulos siguiendo sus dependencias y migra de uno en uno.
+Ejecuta `uv run scripts/describe.py <libro>`: hojas, cabeceras, fórmulas y el código VBA completo. Con eso escribe `docs/<process>.md` (entradas, salidas, reglas, casos especiales y rarezas) y la propuesta de migración en `docs/<process>-proposal.html`: un único fichero que se abre sin conexión, con el árbol del proyecto, el modelo de datos, el diagrama del proceso y los casos de referencia con su resultado esperado (detalle en `references/audit.md`). Ábrela en el navegador. **Espera a que el usuario la confirme antes de escribir código**: es mucho más barato discutir aquí que con el código hecho, y corrige la propuesta con lo que te diga. Si la macro es grande, trocea el plan por módulos siguiendo sus dependencias y migra de uno en uno.
 
 ## 2. Saca casos de referencia de Excel
 

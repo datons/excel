@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+- Step 1 of `migrate` ends in `docs/<process>-proposal.html`: a self-contained page (inline CSS and SVG, no external libraries) with the project tree, the data model, the process diagram, the reference cases with their expected results and, if the web step is requested, the form mockup. The user confirms the migration on that page before any code is written.
+
 ## 0.2.0
 
 - `references/port.md`: fixing a behaviour test first (the characterization test changes in the same commit, with the decision written down), and a new data source with the same calculation (granularity, units, gaps; `/fabric:lakehouse` for Fabric lakehouses).

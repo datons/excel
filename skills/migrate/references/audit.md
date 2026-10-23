@@ -13,6 +13,19 @@
 - **Rarezas**: comportamientos que un port ingenuo cambiaría sin querer (lista de abajo).
 - **Plan**: módulos y orden de migración, y qué casos de referencia vas a sacar.
 
+## La propuesta: docs/<process>-proposal.html
+
+El usuario confirma la migración sobre esta página, no sobre un plan en el chat. Debe poder revisarse de un vistazo y abrirse sin conexión: un único fichero HTML con el CSS dentro, los diagramas en SVG dentro del propio fichero y sin librerías, fuentes ni CDN externos (en muchas redes corporativas están bloqueados). Ábrela al terminar (`open` en macOS, `start` en Windows).
+
+- **Árbol del proyecto**: las carpetas y ficheros de «Dónde va cada cosa» que vas a crear o cambiar, marcando cuáles son nuevos.
+- **Modelo de datos**: cada entrada y cada salida como una tabla con sus columnas, tipo, unidad y origen (hoja y rango del libro, o la tabla de la que se exporta). Señala las claves y cómo se unen las tablas.
+- **Diagrama del proceso**: de las entradas a las salidas, paso a paso, con las reglas y las rarezas en el punto donde actúan.
+- **Casos de referencia**: cada caso que vas a sacar de Excel, normal o límite, con sus entradas y el resultado esperado si el usuario lo conoce. Son lo que demostrará que la migración es correcta.
+- **Pantallas**: solo si se va a hacer el paso 6 o el usuario lo pide, una maqueta de la pantalla del formulario con sus campos y validaciones.
+- **Plan**: módulos y orden de migración, y lo que queda fuera.
+
+Datos de ejemplo, nunca de clientes ni personales: la propuesta se comparte.
+
 ## Rarezas típicas de VBA y Excel
 
 - **`Round` de VBA** redondea al par (2,5 → 2), igual que `round` de Python sobre el valor binario; `ROUND` de las fórmulas de Excel redondea hacia arriba (2,5 → 3). Comprueba cuál usa el proceso antes de elegir `round` o `Decimal.quantize(ROUND_HALF_UP)`.
