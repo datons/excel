@@ -38,6 +38,10 @@ Nombres de ficheros, funciones y comandos en inglés; documentación y mensajes,
 
 Ejecuta `uv run scripts/describe.py <libro>`: hojas, cabeceras, fórmulas y el código VBA completo. Con eso escribe `docs/<process>.md` (entradas, salidas, reglas, casos especiales y rarezas) y la propuesta de migración en `docs/<process>-proposal.html`: un único fichero que se abre sin conexión, con el árbol del proyecto, el modelo de datos, el diagrama del proceso y los casos de referencia con su resultado esperado (detalle en `references/audit.md`). Ábrela en el navegador. **Espera a que el usuario la confirme antes de escribir código**: es mucho más barato discutir aquí que con el código hecho, y corrige la propuesta con lo que te diga. Si la macro es grande, trocea el plan por módulos siguiendo sus dependencias y migra de uno en uno.
 
+## Con la propuesta confirmada, de un tirón
+
+Cuando el usuario confirme la propuesta y pida implementarla («implementa el plan aprobado», «hazlo todo hasta el formulario»), haz los pasos 2 a 5 seguidos, y el 6 si lo pide o la propuesta lo incluye. No pares entre pasos para pedir permiso: para solo si un caso de referencia no cuadra y no sabes por qué, o si una regla de la macro no se entiende. Al terminar, resume en un mensaje: los tests y su resultado, el total de Python frente al de la macro, las rarezas que se mantienen a propósito y, si hay web, los dos comandos para arrancar la API y el formulario.
+
 ## 2. Saca casos de referencia de Excel
 
 Con Excel instalado, `uv run scripts/run_macro.py` ejecuta la macro sobre una copia con las entradas que elijas y guarda la salida en `tests/cases/`. Incluye los casos normales y los límite que encontraste en la auditoría. Sin Excel, o si el libro solo tiene fórmulas, sigue las alternativas de `references/cases.md`.

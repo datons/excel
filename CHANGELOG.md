@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+- Once the user confirms the proposal and asks to implement it, `migrate` runs steps 2 to 5 in one go (and 6 when asked or proposed), stopping only for a reference case that does not match or a rule it cannot understand, and ends with one summary: tests, Python total against the macro, deliberate quirks and how to start the API and the form.
+
 ## 0.3.0
 
 - Step 1 of `migrate` ends in `docs/<process>-proposal.html`: a self-contained page (inline CSS and SVG, no external libraries) with the project tree, the data model, the process diagram, the reference cases with their expected results and, if the web step is requested, the form mockup. The user confirms the migration on that page before any code is written.
