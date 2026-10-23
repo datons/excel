@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- A project with several processes keeps one API and one form: a new process adds its endpoint to the existing `api.py` and its route to the existing `app/`.
+
 ## 0.4.0
 
 - Once the user confirms the proposal and asks to implement it, `migrate` runs steps 2 to 5 in one go (and 6 when asked or proposed), stopping only for a reference case that does not match or a rule it cannot understand, and ends with one summary: tests, Python total against the macro, deliberate quirks and how to start the API and the form.

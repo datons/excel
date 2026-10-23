@@ -32,6 +32,8 @@ src/<project>/api.py            API (paso 6, opcional)
 app/                            formulario SvelteKit (paso 6, opcional)
 ```
 
+Un proyecto con varios procesos tiene una sola API y un solo formulario: si ya existen `src/<project>/api.py` y `app/`, añade el endpoint del proceso nuevo a esa API y su ruta a esa app; no crees otras.
+
 Nombres de ficheros, funciones y comandos en inglés; documentación y mensajes, en el idioma del usuario. No subas a ningún repositorio público libros, datos ni macros de un cliente.
 
 ## 1. Audita antes de escribir código
